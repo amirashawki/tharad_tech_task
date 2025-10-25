@@ -1,6 +1,7 @@
-import 'package:evolvify/core/utils/app_style.dart';
+
 import 'package:flutter/material.dart';
-import 'package:svg_flutter/svg.dart';
+import 'package:tharad_tech_task/core/utils/app_style.dart';
+
 
 // ignore: must_be_immutable
 class CustomTextFormField extends StatelessWidget {
@@ -41,7 +42,7 @@ class CustomTextFormField extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 22, right: 10),
-            child: SvgPicture.asset(image!),
+            child: Text(''),
           ),
           Expanded(
             child: TextFormField(
