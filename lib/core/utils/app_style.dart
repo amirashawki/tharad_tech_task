@@ -1,20 +1,24 @@
 import 'dart:developer';
 
-
 import 'package:flutter/material.dart';
-import 'package:tharad_tech_task/core/utils/constant.dart';
 
 abstract class AppStyle {
-  static TextStyle styleBold52(context) {
+  static TextStyle styleBold20(context) {
     return TextStyle(
-      color: AppColors.kPrimaryColor,
+      color: Color(0xff0D1D1E),
       fontWeight: FontWeight.bold,
-      fontSize: getResponsiveFontSize(context, fontSize: 52),
-      fontFamily: 'PlusJakartaSans',
+      fontSize: getResponsiveFontSize(context, fontSize: 20),
+      fontFamily: 'Tajawal',
     );
   }
-
-
+  static TextStyle medium10(context) {
+    return TextStyle(
+      color: Color(0xff0D1D1E),
+      fontWeight: FontWeight.w500,
+      fontSize: getResponsiveFontSize(context, fontSize: 10),
+      fontFamily: 'Tajawal',
+    );
+  }
 }
 
 // sacleFactor

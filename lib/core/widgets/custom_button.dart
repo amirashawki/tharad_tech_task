@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.kPrimaryColor,
-          borderRadius: BorderRadius.circular(borderRadius ?? 15),
+          borderRadius: BorderRadius.circular(borderRadius ?? 8),
         ),
         child: Center(
           child: Padding(
@@ -31,8 +31,8 @@ class CustomButton extends StatelessWidget {
               title,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: getResponsiveFontSize(context, fontSize: 20),
-                fontWeight: FontWeight.w500,
+                fontSize: getResponsiveFontSize(context, fontSize: 12),
+                fontWeight: FontWeight.w700,
                 fontFamily: 'Roboto',
               ),
             ),

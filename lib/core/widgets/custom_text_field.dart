@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:tharad_tech_task/core/utils/app_style.dart';
-
 
 // ignore: must_be_immutable
 class CustomTextFormField extends StatelessWidget {
@@ -11,13 +9,13 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.validate,
     this.obscureText = false,
-    this.suffixIcon,
-    this.image,
+    this.prefixIcon,
+
     this.controller,
   });
-  String? hintText, image;
+  String? hintText;
 
-  Widget? suffixIcon;
+  Widget? prefixIcon;
   bool? obscureText;
   TextEditingController? controller;
   Function(String)? onChanged;
@@ -26,48 +24,33 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
-            spreadRadius: 5,
-            blurRadius: 6,
-            offset: Offset(0, 3),
-          ),
-        ],
+        color: Color(0xffF4F7F6),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Color(0xffF0E6DE)),
       ),
 
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 22, right: 10),
-            child: Text(''),
+      child: TextFormField(
+        textDirection: TextDirection.rtl,
+        textAlign: TextAlign.right,
+          
+        validator: validate,
+        controller: controller,
+        obscureText: obscureText!,
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          hintText: hintText,
+          hintStyle: TextStyle(
+            fontSize: getResponsiveFontSize(context, fontSize: 14),
+            color: Color(0xffA1A1A1),
+            fontWeight: FontWeight.w500,
           ),
-          Expanded(
-            child: TextFormField(
-              validator: validate,
-              controller: controller,
-              obscureText: obscureText!,
-              decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle: TextStyle(
-                  fontSize: getResponsiveFontSize(context, fontSize: 14),
-                  color: Color(0xffA1A1A1),
-                  fontWeight: FontWeight.w500,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none, // Hides the border
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 0,
-                ),
-              ),
-            ),
+          border: OutlineInputBorder(
+            
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
           ),
-        ],
+          contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        ),
       ),
     );
   }

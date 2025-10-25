@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiServices {
-  final _baseUrl = 'https://evolvify.runasp.net/api/';
+  final _baseUrl = 'https://flutter.tharadtech.com/api/';
   final Dio _dio = Dio();
 
   Future<String?> _loadToken() async {
@@ -10,15 +10,19 @@ class ApiServices {
     return prefs.getString('token');
   }
 
-  Future<Map<String, dynamic>> post({required String endPoint, data}) async {
+  Future<Map<String, dynamic>> post({
+    required String endPoint,
+    data,
+    bool isFormData = false,
+  }) async {
     final token = await _loadToken();
 
     final response = await _dio.post(
       '$_baseUrl$endPoint',
-      data: data,
+      data: isFormData ? FormData.fromMap(data) : data,
       options: Options(
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
         },
       ),
@@ -32,12 +36,7 @@ class ApiServices {
 
     final response = await _dio.get(
       '$_baseUrl$endPoint',
-      options: Options(
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          if (token != null) 'Authorization': 'Bearer $token',
-        },
-      ),
+      options: Options(headers: {'Accept': 'application/json'}),
     );
 
     return response.data;
