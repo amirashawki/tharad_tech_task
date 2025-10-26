@@ -48,7 +48,6 @@ class ApiServices {
     return response.data;
   }
 
-  
   Future<Map<String, dynamic>> put({
     required String endPoint,
     data,
@@ -70,10 +69,20 @@ class ApiServices {
     return response.data;
   }
 
-  Future<Response> delete({
-    required String endPoint,
-    Map<String, dynamic>? headers,
-  }) async {
-    return await _dio.delete(endPoint, options: Options(headers: headers));
+  Future<Map<String, dynamic>> delete({required String endPoint}) async {
+    final token = await _loadToken();
+
+    final response = await _dio.delete(
+      '$_baseUrl$endPoint',
+      options: Options(
+        headers: {
+          'Accept': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      ),
+    );
+
+    print("🔵 DELETE RESPONSE: ${response.data}");
+    return response.data;
   }
 }

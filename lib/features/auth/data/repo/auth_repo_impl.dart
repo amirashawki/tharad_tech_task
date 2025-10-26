@@ -120,12 +120,10 @@ class AuthRepoImpl implements AuthRepo {
   //     if (response['status'] == 'success' && response['data'] != null) {
   //       final data = response['data'];
 
-        
   //       await prefs.setString('user_name', data['name'] ?? '');
   //       await prefs.setString('user_email', data['email'] ?? '');
   //       await prefs.setString('user_image', data['image'] ?? '');
 
-       
   //       final authModel = AuthModel.fromJson({
   //         ...data,
   //         'message': response['message'],
@@ -160,6 +158,7 @@ class AuthRepoImpl implements AuthRepo {
       final response = await ApiServices().put(
         endPoint: 'Update-Profile',
         data: {
+          '_method': 'PUT',
           'email': email,
           'old_password': oldpassWord,
           'username': userName,
@@ -197,32 +196,28 @@ class AuthRepoImpl implements AuthRepo {
     }
   }
 
-  @override
   Future<Either<Failure, String>> logout() async {
-  try {
-    final prefs = await SharedPreferences.getInstance();
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    final response = await ApiServices().delete(endPoint: 'auth/logout');
+      final response = await ApiServices().delete(endPoint: 'auth/logout');
 
-    print("📤 LOGOUT RESPONSE: ${response.data}");
+      print("📤 LOGOUT RESPONSE: $response");
 
-    if (response.data['status'] == 'success') {
-      await prefs.clear();
-      return right(response.data['message'] ?? 'تم تسجيل الخروج بنجاح');
-    } else {
-      return left(
-        ServerFailure(response.data['message'] ?? 'فشل تسجيل الخروج'),
-      );
+      if (response['status'] == 'success') {
+        await prefs.clear();
+        return right(response['message'] ?? 'تم تسجيل الخروج بنجاح ');
+      } else {
+        return left(ServerFailure(response['message'] ?? 'فشل تسجيل الخروج '));
+      }
+    } on DioException catch (e) {
+      print(" DioException: ${e.response?.data}");
+      return left(ServerFailure.fromDioException(e));
+    } catch (e) {
+      print(" Unexpected error: $e");
+      return left(ServerFailure('Unexpected error: $e'));
     }
-  } on DioException catch (e) {
-    return left(ServerFailure.fromDioException(e));
-  } catch (e) {
-    return left(ServerFailure(e.toString()));
   }
-}
-
-
-   
 
   @override
   Future<Either<Failure, AuthModel>> getprofileData() async {
