@@ -1,5 +1,4 @@
 import 'dart:io' show File;
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +26,6 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   Future<void> registerUser() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
     isLoading = true;
     emit(Registerloading());
 
@@ -38,27 +36,31 @@ class RegisterCubit extends Cubit<RegisterState> {
         return;
       }
 
-      final registerResult = await AuthRepoImpl().register(
+      final result = await AuthRepoImpl().register(
         userName: userNameController.text.trim(),
         email: emailController.text.trim(),
-        confirmPassword: confirmPasswordController.text.trim(),
         passWord: passwordController.text.trim(),
+        confirmPassword: confirmPasswordController.text.trim(),
         image: selectedImage,
       );
 
-      registerResult.fold(
+      result.fold(
         (failure) {
           isLoading = false;
           print('❌ Register Error: ${failure.errMessge}');
           emit(Registerfailure(errMassage: failure.errMessge));
         },
-        (data) {
+        (authModel) async {
           isLoading = false;
-          if (data.otp != null) {
-            print('✅ Register successful, OTP is: ${data.otp}');
-            preferences.setInt('otp', data.otp!);
-            preferences.setString('email', emailController.text.trim());
-          }
+
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('email', authModel.email ?? '');
+
+          print('✅ Register Success');
+          print('📧 Email: ${authModel.email}');
+          print('🔢 OTP: ${authModel.otp}');
+          print('📩 Message: ${authModel.message}');
+
           emit(Registersuccess());
         },
       );
@@ -75,6 +77,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     }
   }
 
+  @override
   Future<void> close() {
     userNameController.dispose();
     emailController.dispose();

@@ -32,7 +32,7 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.right,
-          
+
         validator: validate,
         controller: controller,
         obscureText: obscureText!,
@@ -40,12 +40,11 @@ class CustomTextFormField extends StatelessWidget {
           prefixIcon: prefixIcon,
           hintText: hintText,
           hintStyle: TextStyle(
-            fontSize: getResponsiveFontSize(context, fontSize: 14),
+            fontSize: getResponsiveFontSize(context, fontSize: 11),
             color: Color(0xffA1A1A1),
             fontWeight: FontWeight.w500,
           ),
           border: OutlineInputBorder(
-            
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
           ),

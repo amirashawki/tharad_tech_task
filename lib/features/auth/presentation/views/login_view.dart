@@ -36,7 +36,7 @@ class _LoginViewState extends State<LoginView> {
         listener: (context, state) {
           if (state is Loginsuccess) {
             showSnackBar(context, text: 'login success');
-            
+            GoRouter.of(context).go(AppRouter.kProfileView);
           } else if (state is Loginfailure) {
             showSnackBar(context, text: state.errMassage);
           }

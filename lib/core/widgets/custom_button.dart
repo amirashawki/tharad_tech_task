@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tharad_tech_task/core/utils/app_style.dart';
-import 'package:tharad_tech_task/core/utils/constant.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -20,7 +19,11 @@ class CustomButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.kPrimaryColor,
+          gradient: LinearGradient(
+            colors: [Color(0xFF5CC7A3), Color(0xFF265355)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(

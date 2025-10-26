@@ -1,5 +1,3 @@
-
-
 import 'package:dartz/dartz.dart';
 import 'package:tharad_tech_task/core/errors/failures.dart';
 import 'package:tharad_tech_task/features/auth/data/model/auth_model.dart';
@@ -13,7 +11,15 @@ abstract class AuthRepo {
     confirmPassword,
     image,
   });
- 
+
   Future<Either<Failure, String>> verifyPassWord({otp, email});
-  
+  Future<Either<Failure, AuthModel>> getprofileData();
+  Future<Either<Failure, AuthModel>> updateProfileData({
+    email,
+    oldpassWord,
+    userName,
+    newPassword,
+    image,
+  });
+  Future<Either<Failure, String>> logout();
 }

@@ -44,12 +44,13 @@ class _VerityPasswordState extends State<VerityPassword> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
-    loadEmailandOtp();
+    loadEmail();
   }
 
-  Future<void> loadEmailandOtp() async {
+  Future<void> loadEmail() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
@@ -142,9 +143,17 @@ class _VerityPasswordState extends State<VerityPassword> {
                     title: 'المتابعة',
                     onTap: () {
                       final otp = controllers.map((c) => c.text).join();
-                      BlocProvider.of<VerifyPassCubit>(
-                        context,
-                      ).verifyPassWord(otp: otp, email: email);
+                      if (email != null && otp.length == 4) {
+                        context.read<VerifyPassCubit>().verifyPassWord(
+                          otp: otp,
+                          email: email!,
+                        );
+                      } else {
+                        showSnackBar(
+                          context,
+                          text: 'أدخل الكود كامل أو تحقق من البريد الإلكتروني',
+                        );
+                      }
                     },
                   ),
           ],

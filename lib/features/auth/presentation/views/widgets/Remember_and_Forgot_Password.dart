@@ -18,7 +18,7 @@ class RememberandForgotPassword extends StatelessWidget {
             ' هل نسيت كلمة المرور؟',
             style: TextStyle(
               color: AppColors.kPrimaryColor,
-              fontSize: getResponsiveFontSize(context, fontSize: 14),
+              fontSize: getResponsiveFontSize(context, fontSize: 12),
               fontWeight: FontWeight.w400,
             ),
           ),

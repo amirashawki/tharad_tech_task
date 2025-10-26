@@ -12,8 +12,7 @@ class LoginCubit extends Cubit<LoginState> {
   final formKey = GlobalKey<FormState>();
   LoginCubit() : super(LoginInitial());
   Future login() async {
-    
-
+    final prefs = await SharedPreferences.getInstance();
     var result = await AuthRepoImpl().login(
       email: emailController.text,
       passWord: passwordController.text,
@@ -22,8 +21,13 @@ class LoginCubit extends Cubit<LoginState> {
       (failure) {
         emit(Loginfailure(errMassage: failure.errMessge));
       },
-      (data) {
-       
+      (data) async{
+     
+        
+      await prefs.setString('token', data.token ?? '');
+      await prefs.setString('email', data.email ?? '');
+      await prefs.setString('name', data.username ?? '');
+      await prefs.setString('image', data.image ?? '');
         emit(Loginsuccess());
       },
     );

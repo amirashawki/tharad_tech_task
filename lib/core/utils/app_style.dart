@@ -11,6 +11,7 @@ abstract class AppStyle {
       fontFamily: 'Tajawal',
     );
   }
+
   static TextStyle medium10(context) {
     return TextStyle(
       color: Color(0xff0D1D1E),
@@ -43,7 +44,7 @@ double getScaleFactor(context) {
   double width = MediaQuery.sizeOf(context).width;
   log(width.toString());
   if (width < 600) {
-    return width / 550;
+    return width / 350;
   } else if (width < 1000) {
     return width / 850;
   } else {
