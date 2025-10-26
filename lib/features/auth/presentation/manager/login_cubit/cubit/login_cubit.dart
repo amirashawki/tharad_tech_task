@@ -1,10 +1,11 @@
 import 'package:bloc/bloc.dart';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tharad_tech_task/features/auth/data/repo/auth_repo_impl.dart' show AuthRepoImpl;
+import 'package:tharad_tech_task/features/auth/data/repo/auth_repo_impl.dart'
+    show AuthRepoImpl;
 
 part 'login_state.dart';
+
 class LoginCubit extends Cubit<LoginState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -30,7 +31,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void validateUser() {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState?.validate() ?? false) {
       login();
     }
   }

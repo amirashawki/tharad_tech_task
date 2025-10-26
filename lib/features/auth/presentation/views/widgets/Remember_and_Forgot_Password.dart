@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tharad_tech_task/core/utils/app_style.dart' show getResponsiveFontSize;
+import 'package:tharad_tech_task/core/utils/app_style.dart'
+    show getResponsiveFontSize;
+import 'package:tharad_tech_task/core/utils/constant.dart';
 import 'package:tharad_tech_task/core/widgets/custom_check_box.dart';
 
 class RememberandForgotPassword extends StatelessWidget {
@@ -10,37 +10,32 @@ class RememberandForgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            CustomCheckBox(),
-            SizedBox(width: 6),
-            Text(
-              'تذكرني',
-              style: TextStyle(
-                color: Color(0xffA1A1A1),
-                fontSize: getResponsiveFontSize(context, fontSize: 14),
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Robto',
-              ),
-            ),
-          ],
-        ),
-        Spacer(),
-
         GestureDetector(
-          onTap: () {
-         
-          },
+          onTap: () {},
           child: Text(
             ' هل نسيت كلمة المرور؟',
             style: TextStyle(
-              color: Color(0xffA1A1A1),
+              color: AppColors.kPrimaryColor,
               fontSize: getResponsiveFontSize(context, fontSize: 14),
               fontWeight: FontWeight.w400,
-              fontFamily: 'Robto',
             ),
           ),
+        ),
+        Row(
+          children: [
+            Text(
+              'تذكرني',
+              style: TextStyle(
+                color: Color(0xff0D1D1E),
+                fontSize: getResponsiveFontSize(context, fontSize: 12),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            SizedBox(width: 6),
+            CustomCheckBox(),
+          ],
         ),
       ],
     );

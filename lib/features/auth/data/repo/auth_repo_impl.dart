@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:tharad_tech_task/core/errors/failures.dart';
 import 'package:tharad_tech_task/core/utils/api_services.dart' show ApiServices;
 import 'package:tharad_tech_task/features/auth/data/model/auth_model.dart'
-    show AuthModel;
+    show AuthModel, fromJson;
 import 'package:tharad_tech_task/features/auth/data/repo/auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
@@ -13,13 +11,13 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<Failure, AuthModel>> login({email, passWord}) async {
     try {
       var data = await ApiServices().post(
-        endPoint: 'Accounts/login',
+        endPoint: 'auth/login',
         data: {'email': email, 'passWord': passWord},
       );
 
       final token = data['data']['accessToken'];
 
-      return right(AuthModel());
+      return right(AuthModel.fromJson( data['data']));
     } on Exception catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioException(e));
@@ -73,7 +71,6 @@ class AuthRepoImpl implements AuthRepo {
         },
       );
 
-      
       if (response['data'] != null) {
         final authModel = AuthModel.fromJson(response['data']);
         return right(authModel);

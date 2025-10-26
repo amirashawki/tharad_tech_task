@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:tharad_tech_task/core/utils/constant.dart';
 
@@ -22,12 +20,12 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
         });
       },
       child: Container(
-        height: 10,
-        width: 10,
+        height: 12,
+        width: 12,
 
         decoration: BoxDecoration(
           color: isSelected == true ? AppColors.kPrimaryColor : null,
-          border: Border.all(color: Color(0xffA1A1A1)),
+          border: Border.all(color: Color(0xff0D1D1E)),
         ),
         child: Icon(
           isSelected == true ? Icons.check : null,

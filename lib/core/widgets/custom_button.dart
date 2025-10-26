@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:tharad_tech_task/core/utils/app_style.dart';
 import 'package:tharad_tech_task/core/utils/constant.dart';
@@ -22,11 +21,11 @@ class CustomButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.kPrimaryColor,
-          borderRadius: BorderRadius.circular(borderRadius ?? 8),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: verticalPadding ?? 12),
+            padding: EdgeInsets.symmetric(vertical: verticalPadding ?? 17),
             child: Text(
               title,
               style: TextStyle(

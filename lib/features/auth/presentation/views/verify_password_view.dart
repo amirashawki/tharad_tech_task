@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:tharad_tech_task/core/widgets/custom_arrow_back.dart';
-import 'package:tharad_tech_task/features/auth/presentation/views/widgets/Verification_password.dart' show VerityPassword;
+import 'package:tharad_tech_task/features/auth/presentation/views/widgets/Verification_password.dart'
+    show VerityPassword;
 
 import '../../../../core/utils/app_style.dart';
-
 
 class VerifyPasswordView extends StatelessWidget {
   const VerifyPasswordView({super.key});
@@ -20,26 +19,30 @@ class VerifyPasswordView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 55),
-                // Text(
-                //   'Verification',
-                //   style: AppStyle.styleMedium28(context).copyWith(
-                //     fontSize: getResponsiveFontSize(context, fontSize: 24),
-                //     fontWeight: FontWeight.w600,
-                //   ),
-                // ),
-                const SizedBox(height: 24),
-
-                
-                const SizedBox(height: 11),
+                SizedBox(height: 120),
+                // SvgPicture.asset('assets/images/logo.svg'),
+                Center(child: Image.asset('assets/images/logo1.png')),
+                SizedBox(height: 100),
+                Center(
+                  child: Text(
+                    ' رمز التحقق',
+                    style: AppStyle.styleBold20(context).copyWith(
+                      fontSize: getResponsiveFontSize(context, fontSize: 24),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24),
                 Text(
-                  'Evolvify',
-                  style: AppStyle.styleBold20(context).copyWith(
-                    fontSize: getResponsiveFontSize(context, fontSize: 24),
+                  ' لاستكمال فتح حسابك ادخل رمز التحقق المرسل عبر البريد الإلكتروني',
+                  textAlign: TextAlign.center,
+                  style: TextStyle().copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: getResponsiveFontSize(context, fontSize: 12),
+                    color: Color(0xff998C8C),
                   ),
                 ),
 
-                SizedBox(height: 52),
+                SizedBox(height: 40),
                 VerityPassword(),
               ],
             ),

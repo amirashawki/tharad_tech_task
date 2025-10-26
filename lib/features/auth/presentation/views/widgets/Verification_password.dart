@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tharad_tech_task/core/utils/app_router.dart';
-import 'package:tharad_tech_task/core/utils/app_style.dart';
 import 'package:tharad_tech_task/core/utils/constant.dart';
 import 'package:tharad_tech_task/core/widgets/custom_button.dart';
 import 'package:tharad_tech_task/core/widgets/showSnackBar.dart'
@@ -107,11 +104,35 @@ class _VerityPasswordState extends State<VerityPassword> {
               color: AppColors.kPrimaryColor,
             ),
             SizedBox(height: 21),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'إعادة إرسال الرمز',
+                  style: TextStyle(
+                    color: Color(0xff998C8C),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+
+                Text(
+                  '   لم يصلك الرمز؟',
+                  style: TextStyle(
+                    color: Color(0xff998C8C),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+
             state is VerifyPassLoading
                 ? CircularProgressIndicator()
                 : CustomButton(
                     borderRadius: 25,
-                    title: 'Verify',
+                    title: 'المتابعة',
                     onTap: () {
                       if (fillBox == 6) {
                         verifyCode();
@@ -120,22 +141,6 @@ class _VerityPasswordState extends State<VerityPassword> {
                       }
                     },
                   ),
-            SizedBox(height: 21),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Didn’t Receive the Code ?',
-                  // style: AppStyle.styleMedium14(context),
-                ),
-                Text(
-                  '   Resend Code',
-                  // style: AppStyle.styleMedium28(context).copyWith(
-                  //   fontSize: getResponsiveFontSize(context, fontSize: 12),
-                  // ),
-                ),
-              ],
-            ),
           ],
         );
       },
