@@ -57,6 +57,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           if (data.otp != null) {
             print('✅ Register successful, OTP is: ${data.otp}');
             preferences.setInt('otp', data.otp!);
+            preferences.setString('email', emailController.text.trim());
           }
           emit(Registersuccess());
         },

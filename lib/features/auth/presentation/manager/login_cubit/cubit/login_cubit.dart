@@ -12,7 +12,7 @@ class LoginCubit extends Cubit<LoginState> {
   final formKey = GlobalKey<FormState>();
   LoginCubit() : super(LoginInitial());
   Future login() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    
 
     var result = await AuthRepoImpl().login(
       email: emailController.text,
@@ -23,8 +23,7 @@ class LoginCubit extends Cubit<LoginState> {
         emit(Loginfailure(errMassage: failure.errMessge));
       },
       (data) {
-        // preferences.setString('token', data.token ?? '');
-        preferences.setString('email', emailController.text);
+       
         emit(Loginsuccess());
       },
     );

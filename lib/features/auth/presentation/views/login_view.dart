@@ -34,9 +34,9 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
-           if (state is Loginsuccess) {
+          if (state is Loginsuccess) {
             showSnackBar(context, text: 'login success');
-            GoRouter.of(context).push(AppRouter.kverifyPasswordView);
+            
           } else if (state is Loginfailure) {
             showSnackBar(context, text: state.errMassage);
           }
@@ -58,17 +58,23 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                         'تسجيل الدخول',
                         style: AppStyle.styleBold20(context).copyWith(
-                          fontSize: getResponsiveFontSize(context, fontSize: 24),
+                          fontSize: getResponsiveFontSize(
+                            context,
+                            fontSize: 24,
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(height: 24),
-                    Text('البريد الالكتروني', style: AppStyle.medium10(context)),
+                    Text(
+                      'البريد الالكتروني',
+                      style: AppStyle.medium10(context),
+                    ),
                     const SizedBox(height: 6),
                     CustomTextFormField(
                       controller: c.emailController,
                       hintText: 'ادخل البريد الالكتروني',
-                
+
                       validate: (value) {
                         if (!value!.contains('@')) {
                           return 'Email should contains @';
@@ -77,7 +83,7 @@ class _LoginViewState extends State<LoginView> {
                       },
                     ),
                     const SizedBox(height: 12),
-                
+
                     Text('كلمة المرور', style: AppStyle.medium10(context)),
                     const SizedBox(height: 6),
                     CustomTextFormField(
@@ -117,9 +123,9 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(height: 8),
                     RememberandForgotPassword(),
                     SizedBox(height: 40),
-                
+
                     state is Loginloading
-                        ? const CircularProgressIndicator()
+                        ? Center(child: const CircularProgressIndicator())
                         : CustomButton(
                             title: 'تسجيل الدخول',
                             borderRadius: 15,
@@ -128,7 +134,7 @@ class _LoginViewState extends State<LoginView> {
                             },
                           ),
                     SizedBox(height: 12),
-                
+
                     CustomRow(
                       text1: 'انشاء حساب جديد',
                       text2: ' ليس لديك حساب؟ ',

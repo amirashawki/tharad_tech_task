@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tharad_tech_task/core/utils/app_router.dart';
+import 'package:tharad_tech_task/core/utils/app_style.dart';
 import 'package:tharad_tech_task/core/utils/constant.dart';
 import 'package:tharad_tech_task/core/widgets/custom_button.dart';
 import 'package:tharad_tech_task/core/widgets/showSnackBar.dart'
@@ -17,12 +20,11 @@ class VerityPassword extends StatefulWidget {
 
 class _VerityPasswordState extends State<VerityPassword> {
   final List<TextEditingController> controllers = List.generate(
-    6,
+    4,
     (_) => TextEditingController(),
   );
   int fillBox = 0;
   String? email;
-  bool isLoading = true;
 
   void onChange(String value, int index) {
     if (value.length == 1) {
@@ -44,14 +46,13 @@ class _VerityPasswordState extends State<VerityPassword> {
 
   void initState() {
     super.initState();
-    loadEmail();
+    loadEmailandOtp();
   }
 
-  Future<void> loadEmail() async {
+  Future<void> loadEmailandOtp() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       email = prefs.getString('email');
-      isLoading = false;
     });
   }
 
@@ -62,17 +63,7 @@ class _VerityPasswordState extends State<VerityPassword> {
           print('✅ OTP Confirm Message: ${state.message}');
           print(state.message);
           showSnackBar(context, text: state.message);
-          // if   (email != null) {
-          //     GoRouter.of(context).push(
-          //       AppRouter.kSetNewPassword,
-          //       extra: {
-          //         'code': controllers.map((e) => e.text).join(),
-          //         'email': email!,
-          //       },
-          //     );
-          //   } else {
-          //     showSnackBar(context, text: 'Email not loaded, please try again.');
-          //   }
+          GoRouter.of(context).push(AppRouter.kloginView);
         } else if (state is VerifyPassFailure) {
           showSnackBar(context, text: state.errMessage);
         }
@@ -83,7 +74,7 @@ class _VerityPasswordState extends State<VerityPassword> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
 
-              children: List.generate(6, (index) {
+              children: List.generate(4, (index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: TextFieldCode(
@@ -95,77 +86,70 @@ class _VerityPasswordState extends State<VerityPassword> {
                 );
               }),
             ),
-            SizedBox(height: 52),
+            SizedBox(height: 15),
 
-            SizedBox(height: 25),
-            LinearProgressIndicator(
-              value: fillBox / 4,
-              backgroundColor: Color(0xffCBCBCB),
-              color: AppColors.kPrimaryColor,
-            ),
-            SizedBox(height: 21),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'إعادة إرسال الرمز',
-                  style: TextStyle(
-                    color: Color(0xff998C8C),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'إعادة إرسال الرمز',
+                        style: TextStyle(
+                          color: AppColors.kPrimaryColor,
+                          fontSize: getResponsiveFontSize(
+                            context,
+                            fontSize: 12,
+                          ),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
 
-                Text(
-                  '   لم يصلك الرمز؟',
-                  style: TextStyle(
-                    color: Color(0xff998C8C),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                      Text(
+                        ' لم يصلك  ؟',
+                        style: TextStyle(
+                          color: AppColors.kbackColor,
+                          fontSize: getResponsiveFontSize(
+                            context,
+                            fontSize: 12,
+                          ),
+
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  Text(
+                    '00:59 Sec',
+                    style: TextStyle(
+                      color: Color(0xff998C8C),
+                      fontSize: getResponsiveFontSize(context, fontSize: 10),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 40),
 
             state is VerifyPassLoading
-                ? CircularProgressIndicator()
+                ? Center(child: CircularProgressIndicator())
                 : CustomButton(
                     borderRadius: 25,
                     title: 'المتابعة',
                     onTap: () {
-                      if (fillBox == 6) {
-                        verifyCode();
-                      } else {
-                        showSnackBar(context, text: "Please fill all 6 digits");
-                      }
+                      final otp = controllers.map((c) => c.text).join();
+                      BlocProvider.of<VerifyPassCubit>(
+                        context,
+                      ).verifyPassWord(otp: otp, email: email);
                     },
                   ),
           ],
         );
       },
     );
-  }
-
-  void verifyCode() {
-    final code = controllers.map((e) => e.text).join();
-    if (code.length < 6) {
-      showSnackBar(context, text: 'Please complete the code ');
-    } else if (email == null) {
-      showSnackBar(context, text: ' email not found');
-      return;
-    }
-
-    // BlocProvider.of<VerifyPassCubit>(
-    //   context,
-    // ).verifyPassWord(code: code, email: email!);
-    // if (email != null) {
-    //   GoRouter.of(context).push(
-    //   //   AppRouter.kSetNewPassword,
-    //   //   extra: {'code': controllers.map((e) => e.text).join(), 'email': email!},
-    //   // );
-    // } else {
-    //   showSnackBar(context, text: 'Email not loaded, please try again.');
-    // }
   }
 }

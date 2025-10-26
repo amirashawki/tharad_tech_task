@@ -40,6 +40,7 @@ class _SignUpViewState extends State<SignUpView> {
             const Center(child: CircularProgressIndicator());
           } else if (state is Registersuccess) {
             showSnackBar(context, text: 'register success');
+            GoRouter.of(context).push(AppRouter.kverifyPasswordView);
           } else if (state is Registerfailure) {
             showSnackBar(context, text: state.errMassage);
             log('errorrrrr is ${state.errMassage}');
@@ -210,6 +211,7 @@ class _SignUpViewState extends State<SignUpView> {
                         GoRouter.of(context).push(AppRouter.kloginView);
                       },
                     ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),

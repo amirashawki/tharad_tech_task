@@ -14,6 +14,6 @@ abstract class AuthRepo {
     image,
   });
  
-  Future<Either<Failure, AuthModel>> verifyPassWord({code, email});
+  Future<Either<Failure, String>> verifyPassWord({otp, email});
   
 }
