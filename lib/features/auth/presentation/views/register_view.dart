@@ -10,7 +10,6 @@ import 'package:tharad_tech_task/core/utils/constant.dart';
 import 'package:tharad_tech_task/core/widgets/custom_button.dart';
 import 'package:tharad_tech_task/core/widgets/custom_text_field.dart';
 import 'package:tharad_tech_task/core/widgets/showSnackBar.dart';
-import 'package:tharad_tech_task/features/auth/presentation/manager/login_cubit/cubit/login_cubit.dart';
 import 'package:tharad_tech_task/features/auth/presentation/manager/register_cubit/cubit/register_cubit.dart';
 import 'package:tharad_tech_task/features/auth/presentation/views/widgets/custom_raw.dart'
     show CustomRow;
@@ -193,8 +192,8 @@ class _SignUpViewState extends State<SignUpView> {
 
                     SizedBox(height: 40),
 
-                    state is Loginloading
-                        ? const CircularProgressIndicator()
+                    state is Registerloading
+                        ? Center(child: const CircularProgressIndicator())
                         : CustomButton(
                             title: 'انشاء حساب جديد',
                             borderRadius: 15,

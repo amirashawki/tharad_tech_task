@@ -21,8 +21,6 @@ class RegisterCubit extends Cubit<RegisterState> {
   bool isLoading = false;
   File? selectedImage;
 
-  //  حفظ الصورة في المتغير
-
   void setImage(File image) {
     selectedImage = image;
     emit(RegisterImagePicked());
@@ -34,7 +32,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(Registerloading());
 
     try {
-      if (selectedImage == null) {
+      if (selectedImage == null || !selectedImage!.existsSync()) {
         emit(Registerfailure(errMassage: "من فضلك اختر صورة قبل التسجيل"));
         isLoading = false;
         return;
@@ -54,12 +52,12 @@ class RegisterCubit extends Cubit<RegisterState> {
           print('❌ Register Error: ${failure.errMessge}');
           emit(Registerfailure(errMassage: failure.errMessge));
         },
-        (token) {
+        (data) {
           isLoading = false;
-          // if (token.token != null) {
-          //   preferences.setString('token', token.token!);
-          //   print('✅ Token saved successfully: ${token.token}');
-          // }
+          if (data.otp != null) {
+            print('✅ Register successful, OTP is: ${data.otp}');
+            preferences.setInt('otp', data.otp!);
+          }
           emit(Registersuccess());
         },
       );

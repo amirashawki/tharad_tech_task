@@ -5,6 +5,7 @@ class AuthModel {
   final int? otp;
   final String? message;
   final String? status;
+  final String? token;
 
   AuthModel({
     this.username,
@@ -13,6 +14,7 @@ class AuthModel {
     this.otp,
     this.message,
     this.status,
+    this.token,
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class AuthModel {
       otp: json['otp'] is int ? json['otp'] : int.tryParse(json['otp']?.toString() ?? ''),
       message: json['message'] as String?,
       status: json['status'] as String?,
+      token: json['token'] as String?,
     );
   }
 
@@ -33,5 +36,6 @@ class AuthModel {
     'otp': otp,
     'message': message,
     'status': status,
+    'token': token,
   };
 }
