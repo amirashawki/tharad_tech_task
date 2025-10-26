@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tharad_tech_task/features/auth/presentation/manager/Verify_cubit/cubit/verify_pass_cubit.dart';
 import 'package:tharad_tech_task/features/auth/presentation/manager/cubit/get_profile_details_cubit.dart';
+import 'package:tharad_tech_task/features/auth/presentation/manager/cubit/logout_cubit.dart';
 import 'package:tharad_tech_task/features/auth/presentation/manager/cubit/update_data_progile_cubit.dart';
 import 'package:tharad_tech_task/features/auth/presentation/manager/register_cubit/cubit/register_cubit.dart'
     show RegisterCubit;
@@ -38,7 +39,7 @@ abstract class AppRouter {
               create: (context) =>
                   GetProfileDetailsCubit()..getProfileDetails(),
             ),
-            BlocProvider(create: (context) => LoginCubit()),
+            BlocProvider(create: (context) => LogoutCubit()),
           ],
           child: const ProfileView(),
         ),

@@ -48,6 +48,28 @@ class ApiServices {
     return response.data;
   }
 
+  
+  Future<Map<String, dynamic>> put({
+    required String endPoint,
+    data,
+    bool isFormData = false,
+  }) async {
+    final token = await _loadToken();
+
+    final response = await _dio.put(
+      '$_baseUrl$endPoint',
+      data: isFormData ? FormData.fromMap(data) : data,
+      options: Options(
+        headers: {
+          'Accept': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      ),
+    );
+
+    return response.data;
+  }
+
   Future<Response> delete({
     required String endPoint,
     Map<String, dynamic>? headers,

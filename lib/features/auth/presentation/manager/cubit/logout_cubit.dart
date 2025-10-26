@@ -1,3 +1,4 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tharad_tech_task/features/auth/data/repo/auth_repo_impl.dart';
@@ -12,7 +13,10 @@ class LogoutCubit extends Cubit<LogoutState> {
     final result = await AuthRepoImpl().logout();
 
     result.fold(
+     
       (failure) => emit(LogoutFailure(failure.errMessge)),
+      
+      
       (message) => emit(LogoutSuccess(message)),
     );
   }

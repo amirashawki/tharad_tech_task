@@ -107,41 +107,44 @@ class AuthRepoImpl implements AuthRepo {
     }
   }
 
-  @override
-  Future<Either<Failure, AuthModel>> getprofileData() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final response = await ApiServices().get(endPoint: 'profile-details');
+  // @override
+  // Future<Either<Failure, AuthModel>> getProfileData() async {
+  //   try {
+  //     final prefs = await SharedPreferences.getInstance();
+  //     final response = await ApiServices().get(
+  //       endPoint: 'auth/profile-details',
+  //     );
 
-      print("Profile response: $response");
+  //     print("📥 Profile response: $response");
 
-      if (response['status'] == true && response['data'] != null) {
-        final data = response['data'];
+  //     if (response['status'] == 'success' && response['data'] != null) {
+  //       final data = response['data'];
 
-        await prefs.setString('user_name', data['name'] ?? '');
-        await prefs.setString('user_email', data['email'] ?? '');
-        await prefs.setString('user_image', data['image'] ?? '');
+        
+  //       await prefs.setString('user_name', data['name'] ?? '');
+  //       await prefs.setString('user_email', data['email'] ?? '');
+  //       await prefs.setString('user_image', data['image'] ?? '');
 
-        final authModel = AuthModel.fromJson({
-          ...data,
-          'message': response['message'],
-          'status': response['status'],
-        });
+       
+  //       final authModel = AuthModel.fromJson({
+  //         ...data,
+  //         'message': response['message'],
+  //         'status': response['status'],
+  //       });
+  //       await prefs.setString('cached_profile', jsonEncode(data));
 
-        await prefs.setString('cached_profile', jsonEncode(data));
-
-        return right(authModel);
-      } else {
-        return left(
-          ServerFailure(response['message'] ?? 'فشل في تحميل البيانات'),
-        );
-      }
-    } on DioException catch (e) {
-      return left(ServerFailure.fromDioException(e));
-    } catch (e) {
-      return left(ServerFailure(e.toString()));
-    }
-  }
+  //       return right(authModel);
+  //     } else {
+  //       return left(
+  //         ServerFailure(response['message'] ?? 'فشل في تحميل البيانات'),
+  //       );
+  //     }
+  //   } on DioException catch (e) {
+  //     return left(ServerFailure.fromDioException(e));
+  //   } catch (e) {
+  //     return left(ServerFailure(e.toString()));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, AuthModel>> updateProfileData({
@@ -154,7 +157,7 @@ class AuthRepoImpl implements AuthRepo {
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final response = await ApiServices().post(
+      final response = await ApiServices().put(
         endPoint: 'Update-Profile',
         data: {
           'email': email,
@@ -196,19 +199,58 @@ class AuthRepoImpl implements AuthRepo {
 
   @override
   Future<Either<Failure, String>> logout() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+
+    final response = await ApiServices().delete(endPoint: 'auth/logout');
+
+    print("📤 LOGOUT RESPONSE: ${response.data}");
+
+    if (response.data['status'] == 'success') {
+      await prefs.clear();
+      return right(response.data['message'] ?? 'تم تسجيل الخروج بنجاح');
+    } else {
+      return left(
+        ServerFailure(response.data['message'] ?? 'فشل تسجيل الخروج'),
+      );
+    }
+  } on DioException catch (e) {
+    return left(ServerFailure.fromDioException(e));
+  } catch (e) {
+    return left(ServerFailure(e.toString()));
+  }
+}
+
+
+   
+
+  @override
+  Future<Either<Failure, AuthModel>> getprofileData() async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      final response = await ApiServices().get(endPoint: 'profile-details');
 
-      final response = await ApiServices().delete(endPoint: 'auth/logout');
+      print("📥 Profile response: $response");
 
-      print("📤 LOGOUT RESPONSE: $response");
+      if (response['status'] == 'success' && response['data'] != null) {
+        final data = response['data'];
 
-      if (response.data['status'] == 'success') {
-        await prefs.clear();
-        return right(response.data['message'] ?? 'تم تسجيل الخروج بنجاح');
+        await prefs.setString('user_name', data['name'] ?? '');
+        await prefs.setString('user_email', data['email'] ?? '');
+        await prefs.setString('user_image', data['image'] ?? '');
+
+        final authModel = AuthModel.fromJson({
+          ...data,
+          'message': response['message'],
+          'status': response['status'],
+        });
+
+        await prefs.setString('cached_profile', jsonEncode(data));
+
+        return right(authModel);
       } else {
         return left(
-          ServerFailure(response.data['message'] ?? 'فشل تسجيل الخروج'),
+          ServerFailure(response['message'] ?? 'فشل في تحميل البيانات'),
         );
       }
     } on DioException catch (e) {
